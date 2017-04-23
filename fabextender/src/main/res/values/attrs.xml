@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CircleColorImageView">
+        <attr name="circleColor" format="color"/>
+        <attr name="circleSize" format="integer">
+            <flag name="mini" value="1" />
+            <flag name="normal" value="2" />
+        </attr>
+    </declare-styleable>
+
+</resources>

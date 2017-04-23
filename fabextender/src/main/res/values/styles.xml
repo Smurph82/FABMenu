@@ -1,0 +1,8 @@
+<resources>
+
+    <style name="CircleColorImageView" parent="Theme.AppCompat.Light">
+        <item name="android:padding">8dp</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+</resources>

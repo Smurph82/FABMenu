@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="me.nask.ui.AddGroupActivity">
+    <item
+        android:id="@+id/action_save"
+        android:orderInCategory="100"
+        android:title="Save"
+        android:icon="@drawable/ic_save_white_24dp"/>
+
+    <item
+        android:id="@+id/action_delete"
+        android:orderInCategory="101"
+        android:title="Delete"
+        android:icon="@drawable/ic_delete_white_24dp"/>
+
+    <item
+        android:id="@+id/action_add"
+        android:orderInCategory="102"
+        android:title="Add another one"
+        android:icon="@drawable/ic_add_white_24dp"/>
+</menu>
