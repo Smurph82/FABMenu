@@ -43,7 +43,6 @@ public class CircleColorImageView extends AppCompatImageView {
             typedArray.recycle();
         }
 
-//        Drawable circle = context.getResources().getDrawable(R.drawable.circle_tintable);
         Drawable circle = context.getDrawable((size==SIZE_MINI ?
                 R.drawable.circle_tintable_mini : R.drawable.circle_tintable_normal));
         circle.setColorFilter(circleColor, PorterDuff.Mode.SRC_IN);
