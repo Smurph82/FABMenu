@@ -103,6 +103,8 @@ public class FABMenu extends PopupWindow {
          */
         @Nullable SparseIntArray getMenuItemColors();
     }
+
+    /** Given instance of the callback */
     private FABMenuCustomCallback callback;
 
     public FABMenu(@NonNull Context context, @MenuRes int menuRes,
