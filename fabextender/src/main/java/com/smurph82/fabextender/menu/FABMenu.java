@@ -107,10 +107,19 @@ public class FABMenu extends PopupWindow {
     /** Given instance of the callback */
     private FABMenuCustomCallback callback;
 
+    /**
+     * The constructor for the {@code FAABMenu} object
+     *
+     * @param context     The current {@code Context} of the app.
+     * @param menuRes     The {@code MenuRes} id to build the menu with.
+     * @param orientation The orientation of the menu. {@link #VERTICAL} or {@link #HORIZONTAL}
+     * @param l           The instance of the {@code OnFABMenuItemClickListener}
+     * @param callback    The instance of the {@code FABMenuCustomCallback}
+     */
     public FABMenu(@NonNull Context context, @MenuRes int menuRes,
                    @OrientationDef int orientation,
-                   OnFABMenuItemClickListener l,
-                   FABMenuCustomCallback callback) {
+                   @NonNull OnFABMenuItemClickListener l,
+                   @Nullable FABMenuCustomCallback callback) {
         super(context);
         this.orientation = orientation;
         this.listener = l;
