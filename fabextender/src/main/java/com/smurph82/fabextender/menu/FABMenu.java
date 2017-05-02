@@ -72,6 +72,7 @@ public class FABMenu extends PopupWindow {
     public static final int VERTICAL = 1;
     public static final int HORIZONTAL = 2;
 
+    /** Interface for the FAB menu items on click listener. */
     public interface OnFABMenuItemClickListener {
         void onItemClicked(@IdRes int id);
 
