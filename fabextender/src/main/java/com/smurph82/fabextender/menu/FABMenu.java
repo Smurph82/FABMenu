@@ -82,6 +82,11 @@ public class FABMenu extends PopupWindow {
     /** Interface used to customize the FAB menu */
     public interface FABMenuCustomCallback {
 
+        /**
+         * @return Called to return a {@code SparseIntArray} that contains the menu item id as
+         * the <em>key</em> and the {@link ColorRes} as the value. Return null if you do not want
+         * custom colors for the mini FABs
+         */
         @Nullable SparseIntArray getMenuItemColors();
     }
     private FABMenuCustomCallback callback;
