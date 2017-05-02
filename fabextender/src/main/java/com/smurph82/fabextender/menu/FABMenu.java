@@ -128,9 +128,10 @@ public class FABMenu extends PopupWindow {
     }
 
     /**
+     * Called to build the View layout
      *
-     * @param context
-     * @param menuRes
+     * @param context The current app {@code Context}
+     * @param menuRes The menu res id
      */
     private void initView(Context context, int menuRes) {
         weakContext = new WeakReference<>(context);
