@@ -79,6 +79,7 @@ public class FABMenu extends PopupWindow {
     }
     private OnFABMenuItemClickListener listener;
 
+    /** Interface used to customize the FAB menu */
     public interface FABMenuCustomCallback {
 
         @Nullable SparseIntArray getMenuItemColors();
