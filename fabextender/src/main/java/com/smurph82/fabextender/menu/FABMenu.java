@@ -89,6 +89,8 @@ public class FABMenu extends PopupWindow {
          */
         boolean onItemLongClicked(@IdRes int id);
     }
+
+    /** Given instance of the listener. */
     private OnFABMenuItemClickListener listener;
 
     /** Interface used to customize the FAB menu */
