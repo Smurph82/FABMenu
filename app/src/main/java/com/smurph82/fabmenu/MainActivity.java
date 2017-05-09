@@ -9,6 +9,7 @@ import android.util.SparseIntArray;
 import android.view.View;
 
 import com.smurph82.fabextender.menu.FABMenu;
+import com.smurph82.fabextender.menu.FABMenuBuilder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,7 +45,12 @@ public class MainActivity extends AppCompatActivity {
      */
     private void openMenu() {
         if (fabMenu == null) {
-            fabMenu = new FABMenu(this, R.menu.menu_fab, FABMenu.VERTICAL, listener, callback);
+            FABMenuBuilder builder = new FABMenuBuilder()
+                    .setMenuRes(R.menu.menu_fab)
+                    .setOrientation(FABMenu.VERTICAL)
+                    .setListener(listener)
+                    .setCallback(callback);
+            fabMenu = new FABMenu(this, builder);
         }
         fabMenu.show(fab);
     }
