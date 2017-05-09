@@ -55,8 +55,10 @@ import java.util.ArrayList;
  * Use if you want to create a simple FAB menu from a menu.xml file.
  */
 
+@SuppressWarnings("WeakerAccess")
 public class FABMenu extends PopupWindow {
 
+    /** The length of the overall animation duration. Default is 250 */
     private static final int ANIMATION_DURATION = 250;
 
     private WeakReference<Context> weakContext;
@@ -108,23 +110,17 @@ public class FABMenu extends PopupWindow {
     private FABMenuCustomCallback callback;
 
     /**
-     * The constructor for the {@code FAABMenu} object
+     * The constructor for the {@code FABMenu} object
      *
-     * @param context     The current {@code Context} of the app.
-     * @param menuRes     The {@code MenuRes} id to build the menu with.
-     * @param orientation The orientation of the menu. {@link #VERTICAL} or {@link #HORIZONTAL}
-     * @param l           The instance of the {@code OnFABMenuItemClickListener}
-     * @param callback    The instance of the {@code FABMenuCustomCallback}
+     * @param context The current {@code Context} of the app.
+     * @param builder The {@code FABMenuBuilder} used to build the parts of the FAB menu.
      */
-    public FABMenu(@NonNull Context context, @MenuRes int menuRes,
-                   @OrientationDef int orientation,
-                   @NonNull OnFABMenuItemClickListener l,
-                   @Nullable FABMenuCustomCallback callback) {
+    public FABMenu(@NonNull Context context, @NonNull FABMenuBuilder builder) {
         super(context);
-        this.orientation = orientation;
-        this.listener = l;
-        this.callback = callback;
-        initView(context, menuRes);
+        this.orientation = builder.getOrientation();
+        this.listener = builder.getListener();
+        this.callback = builder.getCallback();
+        initView(context, builder.getMenuRes());
     }
 
     /**
@@ -154,14 +150,15 @@ public class FABMenu extends PopupWindow {
     }
 
     /**
+     * Called when you want to show the FAB menu.
      *
-     * @param anchor
+     * @param anchor The {@code View} that the FAB menu is anchored to.
      */
     public void show(@NonNull final View anchor) {
         this.currentAnchor = anchor;
 
         showAtLocation(anchor,
-                Gravity.BOTTOM|Gravity.END,
+                Gravity.BOTTOM | Gravity.END,
                 dipToPixels((orientation==VERTICAL ?
                         R.dimen.fab_menu_end_vertical_margin :
                         R.dimen.fab_menu_bottom_horizontal_margin)),
@@ -186,16 +183,22 @@ public class FABMenu extends PopupWindow {
     public void dismiss() { animateWindowOutCircular(currentAnchor, getContentView()); }
 
     /**
+     * Called to inflate the menu xml with the {@link MenuBuilder}
      *
-     * @param menuRes
+     * @param menuRes The menu xml file id.
      */
-    public void setMenu(@MenuRes int menuRes) {
+    private void setMenu(@MenuRes int menuRes) {
         //noinspection RestrictedApi
         Menu menu = new MenuBuilder(weakContext.get());
         new MenuInflater(weakContext.get()).inflate(menuRes, menu);
         setUpMenu(menu);
     }
 
+    /**
+     * Called to loop through the {@code Menu} object and build each menu item for the FAB menu.
+     *
+     * @param menu The {@code Menu} object that contains the item for the FAB menu.
+     */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void setUpMenu(@NonNull Menu menu) {
         if (menu.size() > 0) {
@@ -231,7 +234,8 @@ public class FABMenu extends PopupWindow {
     }
 
     /**
-     *
+     * The {@code View.OnClickListener} set to the FAB menu items. Calls the
+     * {@link OnFABMenuItemClickListener} if not null
      */
     private View.OnClickListener onClickListener =
             new View.OnClickListener() {
@@ -244,23 +248,23 @@ public class FABMenu extends PopupWindow {
             };
 
     /**
-     *
+     * The {@code View.OnLongClickListener} set to the FAB menu items. Calls the
+     * {@link OnFABMenuItemClickListener} if not null
      */
     private View.OnLongClickListener onLongClickListener =
             new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if (listener!=null) {
-                        return listener.onItemLongClicked((int) v.getTag(R.id.tag_menu_item_id));
-                    }
-                    return false;
+                    return listener != null &&
+                            listener.onItemLongClicked((int) v.getTag(R.id.tag_menu_item_id));
                 }
             };
 
     /**
+     * Animates the entire FAB menu layout into view, using the reveal animation.
      *
-     * @param anchor
-     * @param contentView
+     * @param anchor      The view the FAB menu is anchored to.
+     * @param contentView The root view of this {@link PopupWindow}
      */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void animateWindowInCircular(@Nullable View anchor, @NonNull View contentView) {
@@ -274,6 +278,12 @@ public class FABMenu extends PopupWindow {
         animator.start();
     }
 
+    /**
+     * Animates the entire FAB menu layout out of view, using the reveal animation.
+     *
+     * @param anchor      The view the FAB menu is anchored to.
+     * @param contentView The root view of this {@link PopupWindow}
+     */
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void animateWindowOutCircular(@Nullable View anchor, @NonNull View contentView) {
         Pair<Integer, Integer> coordinates = getClickOrigin(anchor, contentView);
@@ -299,9 +309,11 @@ public class FABMenu extends PopupWindow {
     }
 
     /**
+     * This will animate each of the FAB menu item into view.
      *
-     * @param button
-     * @param delay
+     * @param button The {@code View} of the menu item.
+     * @param delay  The delay offset so that the menu item animation does not happen while the
+     *               overall reveal animation has not completed.
      */
     private void animateButtonIn(View button, int delay) {
         AnimationSet animation = new AnimationSet(true);
@@ -316,10 +328,11 @@ public class FABMenu extends PopupWindow {
     }
 
     /**
+     * Used to calculate the position where the user clicked the FAB.
      *
-     * @param anchor
-     * @param contentView
-     * @return
+     * @param anchor      The view the FAB menu is anchored to.
+     * @param contentView The root view of this {@link PopupWindow}
+     * @return A {@code Pair} object that contains the x and y of the click.
      */
     private Pair<Integer, Integer> getClickOrigin(@Nullable View anchor,
                                                   @NonNull View contentView) {
@@ -358,9 +371,11 @@ public class FABMenu extends PopupWindow {
     private int getColor(@ColorRes int id) { return weakContext.get().getColor(id); }
 
     /**
+     * This can be used to determine if the color given is not dark enough for a white foreground
+     * color.
      *
-     * @param colorIntValue
-     * @return
+     * @param colorIntValue The color to see if is too dark or light.
+     * @return White or black based off of the given color.
      */
     private int getContrastColor(int colorIntValue) {
         int red = Color.red(colorIntValue);
@@ -375,7 +390,7 @@ public class FABMenu extends PopupWindow {
      *
      * @param drawableId The drawable id. {@link DrawableRes}
      * @param colorId    The {@code int} {@link ColorRes} color id to tint the drawable, or
-     *                   {@code -2} to not tint the drawble.
+     *                   {@code -2} to not tint the drawable.
      * @param isMutate   {@code true} if the drawable should be mutate. {@link Drawable#mutate()}
      * @return The {@code Drawable} object.
      */
