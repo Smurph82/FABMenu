@@ -29,6 +29,8 @@ public interface FABMenuCustomCallback {
     /**
      * Called right before the {@link FABMenu#animateWindowInCircular(View, View)}.
      * This way you could use an AnimatedVectorDrawable with your FAB if you want.
+     *
+     * @param isOpening {@code true} if the menu is opening, {@code false} if the menu is closing.
      */
-    void startFABIconAnimation();
+    void startFABIconAnimation(boolean isOpening);
 }
