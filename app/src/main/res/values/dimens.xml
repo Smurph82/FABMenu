@@ -1,3 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_offset_y_vertical">184dp</dimen>
+    <dimen name="fab_offset_y_horizontal">104dp</dimen>
 </resources>
