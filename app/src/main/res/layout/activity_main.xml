@@ -28,7 +28,7 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_margin"
         android:layout_marginBottom="@dimen/fab_margin"
-        app:srcCompat="@android:drawable/ic_dialog_email"
+        app:srcCompat="@drawable/avd_subject_to_close"
         app:fabSize="normal"/>
     <!-- Demo a FAB over a BottomNavigation -->
     <!--android:layout_marginBottom="72dp"-->
