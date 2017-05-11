@@ -109,6 +109,9 @@ public class FABMenu extends PopupWindow {
     /** Given instance of the callback */
     private FABMenuCustomCallback callback;
 
+    /** The builder used to create this instance of the FABMenu */
+    private FABMenuBuilder builder;
+
     /**
      * The constructor for the {@code FABMenu} object
      *
@@ -117,6 +120,7 @@ public class FABMenu extends PopupWindow {
      */
     public FABMenu(@NonNull Context context, @NonNull FABMenuBuilder builder) {
         super(context);
+        this.builder = builder;
         this.orientation = builder.getOrientation();
         this.listener = builder.getListener();
         this.callback = builder.getCallback();
@@ -159,12 +163,8 @@ public class FABMenu extends PopupWindow {
 
         showAtLocation(anchor,
                 Gravity.BOTTOM | Gravity.END,
-                dipToPixels((orientation==VERTICAL ?
-                        R.dimen.fab_menu_end_vertical_margin :
-                        R.dimen.fab_menu_bottom_horizontal_margin)),
-                dipToPixels((orientation==VERTICAL ?
-                        R.dimen.fab_menu_bottom_vertical_margin :
-                        R.dimen.fab_menu_end_horizontal_margin)));
+                getXPoint(),
+                getYPoint());
 
         getContentView().getViewTreeObserver()
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -177,6 +177,22 @@ public class FABMenu extends PopupWindow {
 
         int offset=1;
         for (View v : childrenViews) { animateButtonIn(v, ANIMATION_DURATION / offset++); }
+    }
+
+    /** @return The custom X point if provided in the {@link #builder} or a default point */
+    private int getXPoint() {
+        if (builder.getXOffset()!=-1) { return builder.getXOffset(); }
+        return dipToPixels((orientation==VERTICAL ?
+                R.dimen.fab_menu_end_vertical_margin :
+                R.dimen.fab_menu_bottom_horizontal_margin));
+    }
+
+    /** @return The custom Y point if provided in the {@link #builder} or a default point */
+    private int getYPoint() {
+        if (builder.getYOffset()!=-1) { return builder.getYOffset(); }
+        return dipToPixels((orientation==VERTICAL ?
+                        R.dimen.fab_menu_bottom_vertical_margin :
+                        R.dimen.fab_menu_end_horizontal_margin));
     }
 
     @Override

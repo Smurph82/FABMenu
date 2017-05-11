@@ -16,6 +16,12 @@ import android.support.annotation.Nullable;
 
 public class FABMenuBuilder {
 
+    /** The custom X point used to get the FAB menu int the correct position on the screen */
+    private int xOffset = -1;
+
+    /** The custom Y point used to get the FAB menu int the correct position on the screen */
+    private int yOffset = -1;
+
     /** The {@link MenuRes} id of the menu xml file. */
     private @MenuRes int menuRes = -1;
 
@@ -69,4 +75,16 @@ public class FABMenuBuilder {
         this.callback = callback;
         return this;
     }
+
+    /** @return The custom x offset */
+    public int getXOffset() { return xOffset; }
+
+    /** @param xOffset The custom x offset point*/
+    public FABMenuBuilder setXOffset(int xOffset) { this.xOffset = xOffset; return this; }
+
+    /** @return The custom y offset*/
+    public int getYOffset() { return yOffset; }
+
+    /** @param yOffset The custom y offset point*/
+    public FABMenuBuilder setYOffset(int yOffset) { this.yOffset = yOffset; return this; }
 }
