@@ -29,7 +29,7 @@ public class FABMenuBuilder {
     private @FABMenu.OrientationDef int orientation = FABMenu.VERTICAL;
 
     /** The click listener for the items in the FAB menu */
-    private FABMenu.OnFABMenuItemClickListener l;
+    private OnFABMenuItemClickListener l;
 
     /** Used to customize the FAB menu such as color of icon backgrounds. */
     private @Nullable FABMenuCustomCallback callback;
@@ -53,13 +53,13 @@ public class FABMenuBuilder {
     }
 
     /** @return The instance of {@code OnFABMenuItemClickListener} that you are using. */
-    public FABMenu.OnFABMenuItemClickListener getListener() { return l; }
+    public OnFABMenuItemClickListener getListener() { return l; }
 
     /**
      * @param l The isntance of the {@code OnFABMenuItemClickListener} you created to get
      *          callbacks on.
      */
-    public FABMenuBuilder setListener(FABMenu.OnFABMenuItemClickListener l) {
+    public FABMenuBuilder setListener(OnFABMenuItemClickListener l) {
         this.l = l;
         return this;
     }

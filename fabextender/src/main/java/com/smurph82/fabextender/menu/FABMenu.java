@@ -74,24 +74,6 @@ public class FABMenu extends PopupWindow {
     public static final int VERTICAL = 1;
     public static final int HORIZONTAL = 2;
 
-    /** Interface for the FAB menu items on click listener. */
-    public interface OnFABMenuItemClickListener {
-        /**
-         * Called when the menu item is clicked.
-         *
-         * @param id The menu id of the item that was clicked
-         */
-        void onItemClicked(@IdRes int id);
-
-        /**
-         * Called when the menu item was long clicked
-         *
-         * @param id The menu id of the item that was long clicked
-         * @return {@code true} if the click was handled, {@code false} if it was not.
-         */
-        boolean onItemLongClicked(@IdRes int id);
-    }
-
     /** Given instance of the listener. */
     private OnFABMenuItemClickListener listener;
 

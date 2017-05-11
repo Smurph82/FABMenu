@@ -11,7 +11,7 @@ import android.util.SparseIntArray;
 /**
  * Created by Ben Murphy on 5/11/2017.
  *
- * Create so that you do not have to implement all the methods.
+ * Created so that you do not have to implement all the methods.
  */
 
 public class SimpleFABMenuCustomCallback implements FABMenuCustomCallback {
