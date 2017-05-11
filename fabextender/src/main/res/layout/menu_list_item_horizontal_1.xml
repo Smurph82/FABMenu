@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:clipToPadding="false"
@@ -12,20 +11,15 @@
     android:paddingTop="8dp">
 
     <com.smurph82.fabextender.component.CircleColorImageView
-        style="@style/CircleColorImageView"
         android:id="@+id/fab"
+        style="@style/FabExtender.CircleColorImageView.Horizontal"
         android:layout_width="@dimen/circle_tintable_mini_height_width"
-        android:layout_height="@dimen/circle_tintable_mini_height_width"
-        android:layout_gravity="center_horizontal"
-        app:circleColor="?android:colorAccent"
-        app:circleSize="mini"/>
+        android:layout_height="@dimen/circle_tintable_mini_height_width" />
 
     <TextView
         android:id="@+id/txt_item_title"
+        style="@style/FabExtender.TextView.Horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minWidth="40dp"
-        android:gravity="center_horizontal"
-        android:textSize="12sp"/>
+        android:layout_height="@dimen/text_bg_layout_height" />
 
 </LinearLayout>
