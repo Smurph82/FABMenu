@@ -1,5 +1,6 @@
 package com.smurph82.fabmenu;
 
+import android.support.annotation.DimenRes;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -50,9 +51,20 @@ public class MainActivity extends AppCompatActivity {
                     .setOrientation(FABMenu.VERTICAL)
                     .setListener(listener)
                     .setCallback(callback);
+//                    .setYOffset(dipToPixels(R.dimen.fab_offset_y_vertical));
             fabMenu = new FABMenu(this, builder);
         }
         fabMenu.show(fab);
+    }
+
+    /**
+     * Called to convert a {@code float} dip into pixels.
+     *
+     * @param dimenId The {@code DimenRes} id of the dimen to convert into pixels.
+     * @return The converted dip into pixels.
+     */
+    private int dipToPixels(@DimenRes int dimenId) {
+        return getResources().getDimensionPixelSize(dimenId);
     }
 
     /**
