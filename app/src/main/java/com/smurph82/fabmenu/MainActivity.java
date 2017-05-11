@@ -1,5 +1,7 @@
 package com.smurph82.fabmenu;
 
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.DimenRes;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +13,8 @@ import android.view.View;
 
 import com.smurph82.fabextender.menu.FABMenu;
 import com.smurph82.fabextender.menu.FABMenuBuilder;
+import com.smurph82.fabextender.menu.SimpleFABMenuCustomCallback;
+import com.smurph82.fabextender.menu.SimpleOnFABMenuItemClickListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -70,8 +74,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      *
      */
-    private FABMenu.OnFABMenuItemClickListener listener =
-            new FABMenu.OnFABMenuItemClickListener() {
+    private SimpleOnFABMenuItemClickListener listener =
+            new SimpleOnFABMenuItemClickListener() {
                 @Override
                 public void onItemClicked(@IdRes int id) {
                     switch (id) {
@@ -88,29 +92,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     fabMenu.dismiss();
                 }
-
-                @Override
-                public boolean onItemLongClicked(@IdRes int id) {
-                    switch (id) {
-                        case R.id.action_save:
-                            Timber.i("onItemClicked: Save");
-                            return true;
-                        case R.id.action_delete:
-                            Timber.i("onItemClicked: Delete");
-                            return true;
-                        case R.id.action_add:
-                            Timber.i("onItemClicked: Add");
-                            return true;
-                        default:
-                            Timber.e("onItemClicked: Unhandled FABMenu item clicked");
-                            return false;
-                    }
-                }
-
-                @Override
-                public void startFABIconAnimation() {
-
-                }
             };
 
 
@@ -121,8 +102,22 @@ public class MainActivity extends AppCompatActivity {
         colors.put(R.id.action_delete, R.color.action_delete);
         colors.put(R.id.action_save, R.color.action_save);
     }
-    private FABMenu.FABMenuCustomCallback callback =
-            new FABMenu.FABMenuCustomCallback() {
+    private SimpleFABMenuCustomCallback callback =
+            new SimpleFABMenuCustomCallback() {
                 @Override public SparseIntArray getMenuItemColors() { return colors; }
+
+                @Override public void startFABIconAnimation(boolean isOpening) {
+                    Drawable drawable = null;
+                    if (isOpening) {
+                        fab.setImageResource(R.drawable.avd_subject_to_close);
+                        drawable = fab.getDrawable();
+                    } else {
+                        fab.setImageResource(R.drawable.avd_close_to_subject);
+                        drawable = fab.getDrawable();
+                    }
+                    if (drawable!=null && drawable instanceof Animatable) {
+                        ((Animatable) drawable).start();
+                    }
+                }
             };
 }
