@@ -19,5 +19,5 @@ public class SimpleFABMenuCustomCallback implements FABMenuCustomCallback {
     @Nullable @Override
     public SparseIntArray getMenuItemColors() { return null; }
 
-    @Override public void startFABIconAnimation() { }
+    @Override public void startFABIconAnimation(boolean isOpening) { }
 }
