@@ -90,6 +90,12 @@ public class FABMenu extends PopupWindow {
          * @return {@code true} if the click was handled, {@code false} if it was not.
          */
         boolean onItemLongClicked(@IdRes int id);
+
+        /**
+         * Called right before the {@link #animateWindowInCircular(View, View)}. This way you could
+         * use an AnimatedVectorDrawable with your FAB if you want.
+         */
+        void startFABIconAnimation();
     }
 
     /** Given instance of the listener. */
