@@ -32,7 +32,7 @@ public class FABMenuBuilder {
     private FABMenu.OnFABMenuItemClickListener l;
 
     /** Used to customize the FAB menu such as color of icon backgrounds. */
-    private @Nullable FABMenu.FABMenuCustomCallback callback;
+    private @Nullable FABMenuCustomCallback callback;
 
     /** Blank constructor */
     public FABMenuBuilder() { }
@@ -65,13 +65,13 @@ public class FABMenuBuilder {
     }
 
     /** @return The instance of {@code FABMenuCustomCallback} used to customize the FAB menu.  */
-    @Nullable public FABMenu.FABMenuCustomCallback getCallback() { return callback; }
+    @Nullable public FABMenuCustomCallback getCallback() { return callback; }
 
     /**
      * @param callback The instance of {@code FABMenuCustomCallback} for interacting with the
      *                 FAB menu.
      */
-    public FABMenuBuilder setCallback(@Nullable FABMenu.FABMenuCustomCallback callback) {
+    public FABMenuBuilder setCallback(@Nullable FABMenuCustomCallback callback) {
         this.callback = callback;
         return this;
     }
