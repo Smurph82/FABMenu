@@ -14,7 +14,6 @@ import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.IdRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.MenuRes;
 import android.support.annotation.NonNull;
@@ -40,8 +39,8 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.smurph82.fabextender.component.CircleColorImageView;
 import com.smurph82.fabextender.R;
+import com.smurph82.fabextender.component.CircleColorImageView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -82,6 +81,9 @@ public class FABMenu extends PopupWindow {
 
     /** The builder used to create this instance of the FABMenu */
     private FABMenuBuilder builder;
+
+    /** {@code true} if the FAB menu is showing/open, {@code false} if not. */
+    private boolean isMenuOpen = false;
 
     /**
      * The constructor for the {@code FABMenu} object
@@ -220,6 +222,9 @@ public class FABMenu extends PopupWindow {
         }
     }
 
+    /** @return {@code true} is the menu is showing, {@code false} if it is not. */
+    public boolean isMenuOpen() { return isMenuOpen; }
+
     /**
      * The {@code View.OnClickListener} set to the FAB menu items. Calls the
      * {@link OnFABMenuItemClickListener} if not null
@@ -262,6 +267,17 @@ public class FABMenu extends PopupWindow {
                 0,
                 Math.max(contentView.getWidth(), contentView.getHeight()));
         animator.setDuration(ANIMATION_DURATION);
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override public void onAnimationStart(Animator animation) {
+                if (callback!=null) { callback.startFABIconAnimation(true); }
+            }
+
+            @Override public void onAnimationEnd(Animator animation) { isMenuOpen ^= true; }
+
+            @Override public void onAnimationCancel(Animator animation) { }
+
+            @Override public void onAnimationRepeat(Animator animation) { }
+        });
         animator.start();
     }
 
@@ -282,10 +298,15 @@ public class FABMenu extends PopupWindow {
 
         animator.setDuration(ANIMATION_DURATION);
         animator.addListener(new Animator.AnimatorListener() {
-            @Override public void onAnimationStart(Animator animation) { }
+            @Override public void onAnimationStart(Animator animation) {
+                if (callback!=null) { callback.startFABIconAnimation(false); }
+            }
 
             @Override
-            public void onAnimationEnd(Animator animation) { FABMenu.super.dismiss(); }
+            public void onAnimationEnd(Animator animation) {
+                isMenuOpen ^= true;
+                FABMenu.super.dismiss();
+            }
 
             @Override public void onAnimationCancel(Animator animation) { }
 
