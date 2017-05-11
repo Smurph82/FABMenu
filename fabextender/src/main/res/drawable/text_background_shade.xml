@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+       android:shape="rectangle">
+    <corners
+        android:radius="@dimen/text_bg_radius" />
+    <solid android:color="@color/text_bg_shade_color" />
+    <size android:height="@dimen/text_bg_size"
+          android:width="@dimen/text_bg_size"/>
+    <padding
+        android:left="@dimen/text_bg_horizontal_padding"
+        android:top="@dimen/text_bg_vertical_padding"
+        android:right="@dimen/text_bg_horizontal_padding"
+        android:bottom="@dimen/text_bg_vertical_padding" />
+</shape>
