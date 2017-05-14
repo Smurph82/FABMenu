@@ -1,6 +1,9 @@
 package com.smurph82.fabmenu;
 
+import android.graphics.Color;
 import android.graphics.drawable.AnimatedVectorDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.DimenRes;
 import android.support.annotation.IdRes;
@@ -9,6 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseIntArray;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroupOverlay;
+import android.widget.PopupWindow;
 
 import com.smurph82.fabextender.menu.FABMenu;
 import com.smurph82.fabextender.menu.FABMenuBuilder;
@@ -60,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
                     .setOrientation(FABMenu.VERTICAL)
                     .setListener(listener)
                     .setCallback(callback);
+            // NOTE: 5/13/17 To Demo the FAB over a BottomBarNavigation
 //                    .setYOffset(dipToPixels(R.dimen.fab_offset_y_vertical));
             fabMenu = new FABMenu(this, builder);
         }
@@ -115,10 +122,34 @@ public class MainActivity extends AppCompatActivity {
                     if (isOpening) {
                         fab.setImageDrawable(avdSubjectToClose);
                         avdSubjectToClose.start();
+//                        applyDim(0.5f);
                     } else {
                         fab.setImageDrawable(avdCloseToSubject);
                         avdCloseToSubject.start();
+//                        clearDim();
                     }
                 }
             };
+
+    /**
+     * This will gray out the screen behind the {@link PopupWindow}.
+     *
+     * @param dimAmount The amount to dim the background screen.
+     */
+    private void applyDim(float dimAmount) {
+        ViewGroup root = (ViewGroup) getWindow().getDecorView().getRootView();
+        Drawable dim = new ColorDrawable(Color.BLACK);
+        dim.setBounds(0, 0, root.getWidth(), root.getHeight());
+        dim.setAlpha((int) (255 * dimAmount));
+
+        ViewGroupOverlay overlay = root.getOverlay();
+        overlay.add(dim);
+    }
+
+    /** Remove the grayed out filter created by {@link #applyDim(float)} */
+    public void clearDim() {
+        ViewGroup root = (ViewGroup) getWindow().getDecorView().getRootView();
+        ViewGroupOverlay overlay = root.getOverlay();
+        overlay.clear();
+    }
 }
