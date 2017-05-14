@@ -1,6 +1,10 @@
 <resources>
+
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="fab_menu_margin_end">8dp</dimen>
+
     <dimen name="fab_menu_end_vertical_margin">16dp</dimen>
-    <dimen name="fab_menu_bottom_vertical_margin">128dp</dimen>
+    <dimen name="fab_menu_bottom_vertical_margin">80dp</dimen>
     <dimen name="fab_menu_end_horizontal_margin">1dp</dimen>
     <dimen name="fab_menu_bottom_horizontal_margin">80dp</dimen>
     <dimen name="circle_tintable_mini_height_width">40dp</dimen>
