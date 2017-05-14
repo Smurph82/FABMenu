@@ -1,12 +1,11 @@
 package com.smurph82.fabmenu;
 
-import android.graphics.drawable.Animatable;
-import android.graphics.drawable.Drawable;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.os.Bundle;
 import android.support.annotation.DimenRes;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseIntArray;
 import android.view.View;
@@ -27,6 +26,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.fab) FloatingActionButton fab;
 
+    private AnimatedVectorDrawable avdSubjectToClose;
+    private AnimatedVectorDrawable avdCloseToSubject;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
         ButterKnife.bind(this);
+
+        avdSubjectToClose = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_subject_to_close);
+        avdCloseToSubject = (AnimatedVectorDrawable) getDrawable(R.drawable.avd_close_to_subject);
     }
 
     @OnClick({R.id.fab})
@@ -107,16 +112,12 @@ public class MainActivity extends AppCompatActivity {
                 @Override public SparseIntArray getMenuItemColors() { return colors; }
 
                 @Override public void startFABIconAnimation(boolean isOpening) {
-                    Drawable drawable = null;
                     if (isOpening) {
-                        fab.setImageResource(R.drawable.avd_subject_to_close);
-                        drawable = fab.getDrawable();
+                        fab.setImageDrawable(avdSubjectToClose);
+                        avdSubjectToClose.start();
                     } else {
-                        fab.setImageResource(R.drawable.avd_close_to_subject);
-                        drawable = fab.getDrawable();
-                    }
-                    if (drawable!=null && drawable instanceof Animatable) {
-                        ((Animatable) drawable).start();
+                        fab.setImageDrawable(avdCloseToSubject);
+                        avdCloseToSubject.start();
                     }
                 }
             };
