@@ -9,6 +9,7 @@ import android.animation.Animator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorRes;
@@ -22,6 +23,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.view.menu.MenuBuilder;
 import android.util.Pair;
 import android.util.SparseIntArray;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,6 +33,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.OvershootInterpolator;
@@ -137,7 +140,7 @@ public class FABMenu extends PopupWindow {
         showAtLocation(anchor,
                 Gravity.BOTTOM | Gravity.END,
                 getXPoint(),
-                getYPoint());
+                getYPoint() + getNavigationBarSize().y);
 
         getContentView().getViewTreeObserver()
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -166,6 +169,51 @@ public class FABMenu extends PopupWindow {
         return dipToPixels((orientation==VERTICAL ?
                         R.dimen.fab_menu_bottom_vertical_margin :
                         R.dimen.fab_menu_end_horizontal_margin));
+    }
+
+    /**
+     * This is used to determine the height of the Navigation Bar that comes on devices like
+     * Nexus and Pixel. Samsung had a hardware up until the S8 which messed with the position of
+     * the popup window.
+     *
+     * @return A {@code Point} with the height of the Navigation Bar as the Y point.
+     */
+    private Point getNavigationBarSize() {
+        Point appUsableSize = getAppUsableScreenSize();
+        Point realScreenSize = getRealScreenSize();
+
+        // navigation bar on the right
+        if (appUsableSize.x < realScreenSize.x) {
+            return new Point(realScreenSize.x - appUsableSize.x, appUsableSize.y);
+        }
+
+        // navigation bar at the bottom
+        if (appUsableSize.y < realScreenSize.y) {
+            return new Point(appUsableSize.x, realScreenSize.y - appUsableSize.y);
+        }
+
+        // navigation bar is not present
+        return new Point();
+    }
+
+    /** @return The screen minus the navigation bar */
+    private Point getAppUsableScreenSize() {
+        WindowManager windowManager =
+                (WindowManager) weakContext.get().getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size;
+    }
+
+    /** @return The entire screen size. */
+    private Point getRealScreenSize() {
+        WindowManager windowManager =
+                (WindowManager) weakContext.get().getSystemService(Context.WINDOW_SERVICE);
+        Display display = windowManager.getDefaultDisplay();
+        Point size = new Point();
+        display.getRealSize(size);
+        return size;
     }
 
     @Override
