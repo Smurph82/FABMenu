@@ -119,37 +119,16 @@ public class MainActivity extends AppCompatActivity {
                 @Override public SparseIntArray getMenuItemColors() { return colors; }
 
                 @Override public void startFABIconAnimation(boolean isOpening) {
+                    ViewGroup root = (ViewGroup) getWindow().getDecorView().getRootView();
                     if (isOpening) {
                         fab.setImageDrawable(avdSubjectToClose);
                         avdSubjectToClose.start();
-//                        applyDim(0.5f);
+//                        fabMenu.applyDim(root, 0.5f);
                     } else {
                         fab.setImageDrawable(avdCloseToSubject);
                         avdCloseToSubject.start();
-//                        clearDim();
+//                        fabMenu.clearDim(root);
                     }
                 }
             };
-
-    /**
-     * This will gray out the screen behind the {@link PopupWindow}.
-     *
-     * @param dimAmount The amount to dim the background screen.
-     */
-    private void applyDim(float dimAmount) {
-        ViewGroup root = (ViewGroup) getWindow().getDecorView().getRootView();
-        Drawable dim = new ColorDrawable(Color.BLACK);
-        dim.setBounds(0, 0, root.getWidth(), root.getHeight());
-        dim.setAlpha((int) (255 * dimAmount));
-
-        ViewGroupOverlay overlay = root.getOverlay();
-        overlay.add(dim);
-    }
-
-    /** Remove the grayed out filter created by {@link #applyDim(float)} */
-    public void clearDim() {
-        ViewGroup root = (ViewGroup) getWindow().getDecorView().getRootView();
-        ViewGroupOverlay overlay = root.getOverlay();
-        overlay.clear();
-    }
 }

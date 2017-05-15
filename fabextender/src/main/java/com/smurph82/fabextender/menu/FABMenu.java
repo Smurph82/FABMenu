@@ -10,6 +10,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorRes;
@@ -32,6 +33,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.ViewGroupOverlay;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -471,5 +473,36 @@ public class FABMenu extends PopupWindow {
      */
     private void changeDrawableTint(@NonNull Drawable drawable, @ColorRes int colorId) {
         DrawableCompat.setTint(drawable, getColor(colorId));
+    }
+
+    /**
+     * This will gray out the screen behind the {@link PopupWindow}. To get the root view call
+     * {@code ViewGroup root = (ViewGroup) getWindow().getDecorView().getRootView();}
+     *
+     * NOTE This will gray the screen out behind the Popup Window. However this also grays out the
+     * FAB button as it is not part of the Popup Window. Just a FYI.
+     *
+     * @param root      The root view of the DecorView
+     * @param dimAmount The amount to dim the background screen.
+     */
+    public void applyDim(@NonNull ViewGroup root, float dimAmount) {
+        Drawable dim = new ColorDrawable(Color.BLACK);
+        dim.setBounds(0, 0, root.getWidth(), root.getHeight());
+        dim.setAlpha((int) (255 * dimAmount));
+
+        ViewGroupOverlay overlay = root.getOverlay();
+        overlay.add(dim);
+    }
+
+    /**
+     * Remove the grayed out filter created by {@link #applyDim(ViewGroup, float)}.
+     * To get the root view call
+     * {@code ViewGroup root = (ViewGroup) getWindow().getDecorView().getRootView();}
+     *
+     * @param root The root view of the DecorView
+     */
+    public void clearDim(@NonNull ViewGroup root) {
+        ViewGroupOverlay overlay = root.getOverlay();
+        overlay.clear();
     }
 }
