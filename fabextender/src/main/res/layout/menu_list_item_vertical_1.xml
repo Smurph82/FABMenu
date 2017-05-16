@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="184dp"
+    android:layout_width="200dp"
     android:layout_height="wrap_content"
     android:clipToPadding="false"
     android:foreground="?android:selectableItemBackgroundBorderless"
@@ -20,6 +20,6 @@
         style="@style/FabExtender.TextView.Vertical"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/text_bg_layout_height"
-        android:layout_toStartOf="@id/fab" />
+        android:layout_toStartOf="@id/fab"/>
 
 </RelativeLayout>
