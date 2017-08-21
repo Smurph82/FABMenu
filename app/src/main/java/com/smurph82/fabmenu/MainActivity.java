@@ -7,15 +7,21 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.DimenRes;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.SparseIntArray;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroupOverlay;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
+import com.smurph82.fabextender.component.CircleColorImageView;
 import com.smurph82.fabextender.menu.FABMenu;
 import com.smurph82.fabextender.menu.FABMenuBuilder;
 import com.smurph82.fabextender.menu.SimpleFABMenuCustomCallback;
@@ -129,6 +135,29 @@ public class MainActivity extends AppCompatActivity {
                         avdCloseToSubject.start();
 //                        fabMenu.clearDim(root);
                     }
+                }
+
+                @Override public boolean useCustomViews() { return true; }
+
+                @Nullable
+                @Override
+                public ViewGroup inflateCustomView(@NonNull LayoutInflater inflater,
+                                                   @NonNull ViewGroup parent,
+                                                   @NonNull MenuItem item) {
+                    ViewGroup viewGroup = (ViewGroup) inflater.inflate(
+                            R.layout.list_item_custom_menu, parent, false);
+
+                    CircleColorImageView fab = viewGroup.findViewById(R.id.fab);
+//                    if (callback != null) {
+//                        SparseIntArray colors = callback.getMenuItemColors();
+//                        if (colors != null && colors.size() > 0) {
+//                            fab.setBackground(getIconDrawable(R.drawable.circle_tintable_mini,
+//                                    colors.get(item.getItemId(), android.R.color.white), true));
+//                        }
+//                    }
+//                    fab.setImageDrawable(item.getIcon());
+
+                    return viewGroup;
                 }
             };
 }

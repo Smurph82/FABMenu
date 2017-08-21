@@ -139,10 +139,17 @@ public class FABMenu extends PopupWindow {
     public void show(@NonNull final View anchor) {
         this.currentAnchor = anchor;
 
-        showAtLocation(anchor,
-                Gravity.BOTTOM | Gravity.END,
-                getXPoint(),
-                getYPoint() + getNavigationBarSize().y);
+        if (callback==null || !callback.useCustomViews()) {
+            showAtLocation(anchor,
+                    Gravity.BOTTOM | Gravity.END,
+                    getXPoint(),
+                    getYPoint() + getNavigationBarSize().y);
+        } else if (callback!=null && callback.useCustomViews()) {
+            showAtLocation(anchor,
+                    Gravity.BOTTOM | Gravity.END,
+                    0,
+                    getYPoint() + getNavigationBarSize().y);
+        }
 
         getContentView().getViewTreeObserver()
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -243,31 +250,46 @@ public class FABMenu extends PopupWindow {
         if (menu.size() > 0) {
             LayoutInflater inflater = LayoutInflater.from(weakContext.get());
             for (int i = 0; i < menu.size(); i++) {
-                MenuItem item = menu.getItem(i);
-                ViewGroup viewGroup = (ViewGroup) inflater.inflate(
-                        (orientation==VERTICAL ? R.layout.menu_list_item_vertical_1 :
-                                R.layout.menu_list_item_horizontal_1),
-                        rootLinearLayout,
-                        false);
+                if (callback==null || !callback.useCustomViews()) {
+                    MenuItem item = menu.getItem(i);
+                    ViewGroup viewGroup = (ViewGroup) inflater.inflate(
+                            (orientation == VERTICAL ? R.layout.menu_list_item_vertical_1 :
+                                    R.layout.menu_list_item_horizontal_1),
+                            rootLinearLayout,
+                            false);
 
-                viewGroup.setOnClickListener(onClickListener);
-                viewGroup.setOnLongClickListener(onLongClickListener);
-                viewGroup.setTag(R.id.tag_menu_item_id, item.getItemId());
+                    viewGroup.setOnClickListener(onClickListener);
+                    viewGroup.setOnLongClickListener(onLongClickListener);
+                    viewGroup.setTag(R.id.tag_menu_item_id, item.getItemId());
 
-                ((TextView)viewGroup.findViewById(R.id.txt_item_title))
-                        .setText(item.getTitle().toString());
-                CircleColorImageView fab = (CircleColorImageView) viewGroup.findViewById(R.id.fab);
-                if (callback!=null) {
-                    SparseIntArray colors = callback.getMenuItemColors();
-                    if (colors!=null && colors.size()>0) {
-                        fab.setBackground(getIconDrawable(R.drawable.circle_tintable_mini,
-                                colors.get(item.getItemId(), android.R.color.white), true));
+                    ((TextView) viewGroup.findViewById(R.id.txt_item_title))
+                            .setText(item.getTitle().toString());
+                    CircleColorImageView fab = viewGroup.findViewById(R.id.fab);
+                    if (callback != null) {
+                        SparseIntArray colors = callback.getMenuItemColors();
+                        if (colors != null && colors.size() > 0) {
+                            fab.setBackground(getIconDrawable(R.drawable.circle_tintable_mini,
+                                    colors.get(item.getItemId(), android.R.color.white), true));
+                        }
+                    }
+                    fab.setImageDrawable(item.getIcon());
+
+                    rootLinearLayout.addView(viewGroup);
+                    childrenViews.add(viewGroup);
+                } else if (callback!=null && callback.useCustomViews()) {
+                    MenuItem item = menu.getItem(i);
+                    ViewGroup viewGroup = callback.inflateCustomView(inflater,
+                            rootLinearLayout, item);
+
+                    if (viewGroup != null) {
+                        viewGroup.setOnClickListener(onClickListener);
+                        viewGroup.setOnLongClickListener(onLongClickListener);
+                        viewGroup.setTag(R.id.tag_menu_item_id, item.getItemId());
+
+                        rootLinearLayout.addView(viewGroup);
+                        childrenViews.add(viewGroup);
                     }
                 }
-                fab.setImageDrawable(item.getIcon());
-
-                rootLinearLayout.addView(viewGroup);
-                childrenViews.add(viewGroup);
             }
         }
     }

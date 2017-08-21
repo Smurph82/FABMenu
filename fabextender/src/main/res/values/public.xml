@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <public name="CircleColorImageView" type="attr"/>
+    <public name="circle_tintable_mini" type="drawable"/>
+    <public name="circle_tintable_normal" type="drawable"/>
 </resources>
